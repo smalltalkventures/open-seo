@@ -362,9 +362,7 @@ export default Alchemy.Stack(
 
     // Optional custom domain for self-hosted deployments.
     const customDomain =
-      stage === "selfhost"
-        ? yield* optionalVar("OPENSEO_CUSTOM_DOMAIN")
-        : "";
+      stage === "selfhost" ? yield* optionalVar("OPENSEO_CUSTOM_DOMAIN") : "";
 
     const selfhostDomains = customDomain ? [customDomain] : undefined;
 
