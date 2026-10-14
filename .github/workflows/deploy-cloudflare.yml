@@ -36,13 +36,16 @@ jobs:
         env:
           DATAFORSEO_API_KEY: ${{ secrets.DATAFORSEO_API_KEY }}
           ACCESS_ALLOWED_EMAILS: ${{ secrets.ACCESS_ALLOWED_EMAILS }}
+          OPENSEO_CUSTOM_DOMAIN: ${{ secrets.OPENSEO_CUSTOM_DOMAIN }}
         run: |
           test -n "$DATAFORSEO_API_KEY"
           test -n "$ACCESS_ALLOWED_EMAILS"
+          test -n "$OPENSEO_CUSTOM_DOMAIN"
 
           {
             printf 'DATAFORSEO_API_KEY=%s\n' "$DATAFORSEO_API_KEY"
             printf 'ACCESS_ALLOWED_EMAILS=%s\n' "$ACCESS_ALLOWED_EMAILS"
+            printf 'OPENSEO_CUSTOM_DOMAIN=%s\n' "$OPENSEO_CUSTOM_DOMAIN"
           } > .env.selfhost
 
           chmod 600 .env.selfhost
