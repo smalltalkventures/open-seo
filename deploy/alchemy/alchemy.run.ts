@@ -360,6 +360,16 @@ export default Alchemy.Stack(
       workersSubdomain,
     );
 
+    // Optional custom domain for self-hosted deployments.
+    const customDomain =
+      stage === "selfhost"
+        ? yield* optionalVar("OPENSEO_CUSTOM_DOMAIN")
+        : "";
+
+    const selfhostDomains = customDomain
+      ? [customDomain]
+      : undefined;
+
     // Created once and bound into BOTH workers — they share the same
     // D1/KV/R2 (and prod Hyperdrive). OAUTH_KV stays app-worker-only.
     const resources = makeResources(stage);
@@ -427,7 +437,9 @@ export default Alchemy.Stack(
     const app = yield* Cloudflare.Worker("open-seo", {
       name: workerName(stage),
       // Prod serves the real domains; the zone is inferred from the hostname.
-      domain: prod ? ["app.openseo.so", "www.app.openseo.so"] : undefined,
+      domain: prod
+        ? ["app.openseo.so", "www.app.openseo.so"]
+        : selfhostDomains,
       // Prebuilt worker from `vite build` (@cloudflare/vite-plugin). The entry
       // exports the DO + WorkflowEntrypoint classes (re-exported by
       // src/server.ts), which `bundle: false` requires. Sibling chunks under
