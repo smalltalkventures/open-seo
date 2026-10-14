@@ -66,7 +66,10 @@ jobs:
       - name: Build OpenSEO
         run: pnpm exec vite build --mode selfhost
 
-      - name: Validation complete
+      - name: Deploy OpenSEO to Cloudflare
+        run: pnpm deploy:selfhost --yes
+
+      - name: Deployment complete
         run: |
-          echo "OpenSEO build completed successfully."
-          echo "Production deployment has NOT been executed."
+          echo "OpenSEO deployment completed."
+          echo "Commit: $GITHUB_SHA"
